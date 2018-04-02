@@ -1,0 +1,41 @@
+html {
+    background-color: paleturquoise;
+}
+
+body{
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 800px;
+    margin: 0 auto;
+    border: 2px solid blue;
+}
+#game {
+    display: flex;
+    border: 2px solid red;
+    width: 400px;
+    height: 400px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    
+    justify-content: center;
+}
+.cell {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    flex-flow: column-reverse nowrap;
+    
+}
+.cell img {
+    width:20px;
+    height: 20px;
+}
