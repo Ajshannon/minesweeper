@@ -1,9 +1,10 @@
 const board = {
 
     element: document.getElementById("board"),
-    width: 200,
-    height: 200,
+    width: 400,
+    height: 400,
     cellSize: 20,
+    cellArray: [],
     //calcCells = totalCells 
     calcCells: function () {
         return (Math.floor(this.width / this.cellSize) * Math.floor(this.width / this.cellSize));
@@ -19,7 +20,7 @@ const board = {
         return Math.floor(this.height / this.cellSize);
     },
     calcCellCount: function () {
-        return Math.floor(this.height / this.cellSize);
+        return Math.floor(this.width / this.cellSize);
     },
     bombsPlaced: 0,
     // bombCount: Math.floor(Math.floor(this.width / this.cellSize) / 3),
@@ -47,7 +48,6 @@ const board = {
         //second for loop randomly selects which spots in the array are bombs.
         //it does this by selecting the the two numbers in one index of the options array,
         // and then it 
-        // for (let n = 0; n < board.calcBombsCounted(); n++) {
         for (let n = 0; n < board.calcBombsCounted(); n++) {
             let optLength = options.length;
             let randomOptions = (Math.random() * optLength);
@@ -77,33 +77,25 @@ const board = {
         for (let i = 0; i < mineFieldPhase2.length; i++) {
             //goes thru rows 
             for (let j = 0; j < mineFieldPhase2[i].length; j++) {
-
                 let total = 0;
-                if (mineFieldPhase2[i][j] === "bomb") {
-
-                } else {
-                    for (var xoff = -1; xoff <= 1; xoff++) {
-                        var i2 = i + xoff;
+                if (mineFieldPhase2[i][j] !== "bomb") {
+                    for (let xoff = -1; xoff <= 1; xoff++) {
+                        let i2 = i + xoff;
                         if (i2 >= 0 || i2 <= limit) {
-                            for (var yoff = -1; yoff <= 1; yoff++) {
-                                var j2 = j + yoff;
+                            for (let yoff = -1; yoff <= 1; yoff++) {
+                                let j2 = j + yoff;
                                 if (j2 >= 0 || j2 <= limit) {
                                     //if both are in limits then execute
-                                    // console.log("neighbor (before limit check):", mineFieldPhase2[i2][j2])
-                                    if (j + j2 >= 0 && j + j2 <= limit + (limit - (limit * .2)) && i + i2 >= 0 && i + i2 <= limit + (limit - (limit * .2))) {
-                                        // console.log("i2 + i: " + (i2 + i) + " j2 + j: " + (j2 + j));
-                                        var neighbor = mineFieldPhase2[i2][j2];
+                                    if (mineFieldPhase2[i2] && mineFieldPhase2[i2][j2]) {
+                                        let neighbor = mineFieldPhase2[i2][j2];
                                         if (neighbor === "bomb") {
-
                                             total++;
                                         }
                                     }
                                 }
-                                //if one is within limit
                             }
                         }
                     }
-
                     // console.log(total);
                     mineFieldPhase2[i][j] = total;
                 }
@@ -113,15 +105,13 @@ const board = {
     },
     makeRows: function () {
         //Width = 400, w = 20 : 400 / 20 = 20 rounded down = 20 rows
-        // let grid = board.setBombs();
         let grid = board.neighborCount();
-
         console.log(board.calcRowCount() + "rows");
-        // for (let rowIndex = 0; rowIndex < board.calcRowCount(); rowIndex++) {
         for (let rowIndex = 0; rowIndex < grid.length; rowIndex++) {
             const rowElement = document.createElement('div');
             rowElement.classList.add('row');
             rowElement.id = 'row-' + rowIndex;
+            this.cellArray.push([]);
             this.element.appendChild(rowElement);
             this.makeCells(rowElement, rowIndex, grid);
         }
@@ -130,13 +120,16 @@ const board = {
     makeCells: function (rowElement, rowIndex, grid) {
 
         for (let cellIndex = 0; cellIndex < grid[rowIndex].length; cellIndex++) {
-            const cell = new Cell(rowIndex, cellIndex, grid);
+            const cell = new Cell(rowIndex, cellIndex, grid, this.cellArray);
+            this.cellArray[rowIndex].push(cell);
             rowElement.appendChild(cell.element);
 
         }
     },
     clickItem: function () {
-        console.log("clicked");
+        this.handleEvent = function (event){
+
+        }
     }
 }
 board.makeRows();
