@@ -1,5 +1,7 @@
 const board = {
 
+
+
     element: document.getElementById("board"),
     width: 400,
     height: 400,
@@ -126,10 +128,13 @@ const board = {
 
         }
     },
-    clickItem: function () {
-        this.handleEvent = function (event){
-
+    failed: function () {
+        for (let rowIndex = 0; rowIndex < grid.length; rowIndex++) {
+            for (let cellIndex = 0; cellIndex < grid[rowIndex].length; cellIndex++) {
+                console.log("fail")
+            }
         }
+
     }
 }
 board.makeRows();
